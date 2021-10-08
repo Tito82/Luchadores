@@ -1,9 +1,7 @@
 import java.security.SecureRandom;
 
-public class Luchador implements Runnable {
-	
-	private static final SecureRandom generador = new SecureRandom();
-	private final int sleepTime;
+public class Luchador extends Thread {
+
 	private String nombre;
 	private int vida;
 	private int fuerza;
@@ -12,24 +10,61 @@ public class Luchador implements Runnable {
 		this.nombre = nombre;
 		this.vida = vida;
 		this.fuerza = fuerza;
-		sleepTime = generador.nextInt(5000);
-		
 	}
-
 
 	@Override
 	public void run() {
-		try {
-			System.out.printf("%s gano %d milisegundos%n%n", this.nombre,this.vida, this.fuerza, sleepTime);
-			Thread.sleep(sleepTime);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Thread.currentThread().interrupt();
+		
+		while( this.vida - fuerza > 0) {
+			this.vida -= fuerza;
+			System.out.println("la vida de " + getNombre() + " es " + getVida());
+			luchar();
+			Thread.yield();
+		}
+	}
+	
+	public void luchar(){
+		if(this.vida - fuerza >0 ) {
+			this.vida -= fuerza;
+			
+			
+		}else {
+			System.out.println(getNombre() +" estas muerto");
 		}
 		
-		
+	}		
+	
+
+	public String getNombre() {
+		return nombre;
 	}
 
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public int getVida() {
+		return vida;
+	}
+
+
+	public void setVida(int vida) {
+		this.vida = vida;
+	}
+
+
+	public int getFuerza() {
+		return fuerza;
+	}
+
+
+	public void setFuerza(int fuerza) {
+		this.fuerza = fuerza;
+	}
+		
+	
 }
+
+
